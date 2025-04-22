@@ -12,8 +12,8 @@ public enum PegType
 [RequireComponent(typeof(SpriteRenderer))]
 public abstract class PegBase : MonoBehaviour
 {
-    private readonly Color _defaultColor = new Color(0.85f, 0.85f, 0.85f);
-    private readonly Color _activatedColor = new Color(1f,1f,1f);
+    private readonly Color _defaultColor = new Color(0.25f, 0.85f, 0.85f);
+    private readonly Color _activatedColor = new Color(1f,.2f,1f);
 
     private SpriteRenderer _spriteRenderer;
 
@@ -21,31 +21,33 @@ public abstract class PegBase : MonoBehaviour
     
     public bool IsHit { get; private set; }
 
-    public void Start()
+    protected virtual void Start()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        // _spriteRenderer.color = _defaultColor;
+        _spriteRenderer.color = _defaultColor;
+        Debug.Log("set color");
     }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        Debug.Log(other.gameObject.name);
+        Debug.Log("hit:" + other.gameObject.name);
         if (other.gameObject.CompareTag("Ball"))
         {
             Hit();
         }
     }
 
-    public virtual void Hit()
+    public virtual bool Hit()
     {
-        int score = PegScoreValues.PegScoreMap[PegType];
+        if (IsHit) return true;
+        IsHit = true;
+        
+        _spriteRenderer.color = _activatedColor;
 
-        if (!IsHit)
-        {
-            _spriteRenderer.color = _activatedColor;
-        }
+        int score = PegScoreValues.PegScoreMap[PegType];
         
         // add scoring and addition to deletion list for manager here
+        return false;
     }
     
 }

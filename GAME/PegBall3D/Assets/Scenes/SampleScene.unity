@@ -1026,11 +1026,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5155362335422296314, guid: 4ed4e5f85bfd34a87a23d2a9631adde5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.06
+      value: 0.169
       objectReference: {fileID: 0}
     - target: {fileID: 5155362335422296314, guid: 4ed4e5f85bfd34a87a23d2a9631adde5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.67
+      value: 0.702
       objectReference: {fileID: 0}
     - target: {fileID: 5155362335422296314, guid: 4ed4e5f85bfd34a87a23d2a9631adde5, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1209,6 +1209,10 @@ PrefabInstance:
     - target: {fileID: 364026764921479535, guid: 13552a300e84b4fa6a2306966504b50e, type: 3}
       propertyPath: m_Name
       value: PlayerHUDRoot
+      objectReference: {fileID: 0}
+    - target: {fileID: 701444951201797478, guid: 13552a300e84b4fa6a2306966504b50e, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -33.300003
       objectReference: {fileID: 0}
     - target: {fileID: 7865283771435189679, guid: 13552a300e84b4fa6a2306966504b50e, type: 3}
       propertyPath: m_LocalPosition.x
