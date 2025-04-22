@@ -32,7 +32,7 @@ take everything i say with a solid handful of salt but here is what im thinkin a
 
 4. shooting mechanic should just be getting the angle from where the ball spawns to where your mouse is and shooting with a little force, simple
 
-5. what we thinking aesthetic wise? i have put some things in a "ref" folder for things i think could be interesting, just as a starting off point
+5. what we thinking aesthetic wise? i have put some things in a "ref" folder for things i think could be interesting, just as a starting off point! also the stuff in the ref folder is NOT from discmaster just fyi
 
 6. those are my thoughts for now please @ me and give me ur opinions ur LOVE ur HATE and all the rest also sorry again for not getting enough done yesterday i shall make up for it today after i sleep
 
