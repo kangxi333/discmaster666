@@ -5,11 +5,12 @@ TagManager:
   serializedVersion: 3
   tags:
   - PlayerCamera
+  - Ball
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - 2D
   - Water
   - UI
   - FinalRenderLayer

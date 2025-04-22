@@ -1,0 +1,1 @@
+backgrounds are 480 x 640
