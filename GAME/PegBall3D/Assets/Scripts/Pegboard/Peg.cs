@@ -9,7 +9,7 @@ using UnityEngine;
 [RequireComponent(typeof(CircleCollider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(SpriteRenderer))]
-public class Peg : MonoBehaviour
+public abstract class Peg : MonoBehaviour
 {
     private readonly Color _defaultColor = new Color(0.25f, 0.85f, 0.85f);
     private readonly Color _activatedColor = new Color(1f,.2f,1f);
