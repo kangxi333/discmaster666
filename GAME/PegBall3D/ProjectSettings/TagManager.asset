@@ -6,6 +6,7 @@ TagManager:
   tags:
   - PlayerCamera
   - Ball
+  - Peg
   layers:
   - Default
   - TransparentFX
