@@ -1,12 +1,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum PegboardState
+{
+    Playing,
+    Loading,
+    WaitingForBall
+}
 public class PegboardMaster : MonoBehaviour
 {
     // list of all levels
     [SerializeField] private GameObject[] levelPrefabs;
     
     private GameObject currentLevel;
+    
+    public int TotalPoints { get; private set; }
+    
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

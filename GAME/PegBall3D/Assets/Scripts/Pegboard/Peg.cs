@@ -11,8 +11,6 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))]
 public abstract class Peg : MonoBehaviour
 {
-    private readonly Color _defaultColor = new Color(0.25f, 0.85f, 0.85f);
-    private readonly Color _activatedColor = new Color(1f,.2f,1f);
 
     private SpriteRenderer _spriteRenderer;
     public PegType PegType { get; }
@@ -22,25 +20,20 @@ public abstract class Peg : MonoBehaviour
     void Start()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        _spriteRenderer.color = _defaultColor;
-        Debug.Log("set color");
     }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        Debug.Log("hit:" + other.gameObject.name);
         if (other.gameObject.CompareTag("Ball"))
         {
             Hit();
         }
     }
 
-    private bool Hit()
+    protected virtual bool Hit()
     {
-        if (IsHit) return true;
+        if (IsHit) return true; // cancels early if already hit
         IsHit = true;
-        
-        _spriteRenderer.color = _activatedColor;
         
         // add scoring and addition to deletion list for manager here
         return false;
