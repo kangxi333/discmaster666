@@ -6,7 +6,6 @@ using UnityEngine.Serialization;
 
 public class PegPlayer : MonoBehaviour
 {
-    private const float Gravity = -9.81f;
     
     [Header("GameObject References")]
     [SerializeField] private GameObject _launcherPos;
@@ -97,7 +96,7 @@ public class PegPlayer : MonoBehaviour
             }
 
             // Apply gravity to velocity (Y axis)
-            velocity.y += Gravity * _dotSpacing;
+            velocity.y += Physics2D.gravity.y * _dotSpacing;
 
             sizeMultiplier *= 0.95f;
         }

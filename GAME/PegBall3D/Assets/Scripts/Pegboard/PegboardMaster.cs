@@ -42,11 +42,11 @@ public class PegboardMaster : MonoBehaviour
             }
         }
 
-        // foreach (GameObject hitPeg in _hitPegList)
-        // {
-        //     Destroy(hitPeg);
-        // }
-        // _hitPegList.Clear();
+        foreach (GameObject hitPeg in _hitPegList)
+        {
+            Destroy(hitPeg);
+        }
+        _hitPegList.Clear();
     }
 
     public void LoadNextLevel()
