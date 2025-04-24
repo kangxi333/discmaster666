@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: ScorePeg
   m_EditorClassIdentifier: 
   <pegType>k__BackingField: 1
+  <pegShape>k__BackingField: 0
   <pegValue>k__BackingField: 100
-  <pegSprite>k__BackingField: {fileID: 0}
+  <pegSpriteNormal>k__BackingField: {fileID: 21300000, guid: 0d3dfb1727a1645d5ba0df5ff8878cd5, type: 3}
+  <pegSpriteHit>k__BackingField: {fileID: 21300000, guid: 543668abe7714447fa2d16db633629ee, type: 3}
