@@ -6,14 +6,21 @@ public class UIManager : MonoBehaviour
 {
     public ScrollingTextScript scrollingPipeText { get; private set; }
     
+    
+    
     private void Awake()
     {
         scrollingPipeText = GetComponentInChildren<ScrollingTextScript>();
     }
 
-    public void DebugString(string str)
+    public void ClickMoveButton(bool direction)
     {
-        Debug.Log(str);
+        // gross way of handling if left or right button selected but it is late and i am lazy
+        
+        // false for left, true for right
+        GameMaster.Instance.MoveCameraCycle(
+            direction ? ButtonDirection.Right : ButtonDirection.Left
+            );
     }
 
 

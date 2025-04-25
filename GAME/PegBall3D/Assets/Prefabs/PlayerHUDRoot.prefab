@@ -511,9 +511,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 5624520774174842059}
     m_Modifications:
     - target: {fileID: 592821967753619766, guid: 06819c5f44b05418fbe1c774ba5c0c73, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 592821967753619766, guid: 06819c5f44b05418fbe1c774ba5c0c73, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 6985124031006411322}
+    - target: {fileID: 592821967753619766, guid: 06819c5f44b05418fbe1c774ba5c0c73, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickMoveButton
+      objectReference: {fileID: 0}
     - target: {fileID: 4095617980272915889, guid: 06819c5f44b05418fbe1c774ba5c0c73, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -598,6 +606,22 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 3116385046217413654}
+    - target: {fileID: 6855996988669273176, guid: 06819c5f44b05418fbe1c774ba5c0c73, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6855996988669273176, guid: 06819c5f44b05418fbe1c774ba5c0c73, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6985124031006411322}
+    - target: {fileID: 6855996988669273176, guid: 06819c5f44b05418fbe1c774ba5c0c73, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickMoveButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 6855996988669273176, guid: 06819c5f44b05418fbe1c774ba5c0c73, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7139454723823170257, guid: 06819c5f44b05418fbe1c774ba5c0c73, type: 3}
       propertyPath: m_Name
       value: PlayerGUI

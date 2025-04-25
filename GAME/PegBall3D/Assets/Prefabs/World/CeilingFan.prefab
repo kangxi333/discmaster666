@@ -278,7 +278,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7a1af0f73bad84e489233fc6fdeea315, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 2.75
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7a1af0f73bad84e489233fc6fdeea315, type: 3}
       propertyPath: m_LocalPosition.z
@@ -342,7 +342,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: bf23bd72e00f54e92908bb2d7f85873b, type: 2}
     - target: {fileID: -956982965246322631, guid: 7a1af0f73bad84e489233fc6fdeea315, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 126
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 7a1af0f73bad84e489233fc6fdeea315, type: 3}
       propertyPath: m_Name
@@ -388,7 +388,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5c21f9778168454d8489227c9a50026, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 200
 --- !u!4 &4508281052290107171 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -5662010918026093672, guid: 7a1af0f73bad84e489233fc6fdeea315, type: 3}
