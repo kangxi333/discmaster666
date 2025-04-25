@@ -17,10 +17,15 @@ public class ScrollingTextScript : MonoBehaviour
     {
         _tmpText = GetComponent<TMP_Text>();
         _fullString = _tmpText.text;
-        StartCoroutine(ShuffleText());
+        StartCoroutine(ScrollText());
     }
 
-    IEnumerator ShuffleText()
+    public void AddText(string text)
+    {
+        _fullString += text;
+    }
+    
+    IEnumerator ScrollText()
     {
         while (true)
         {

@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0729f1e6c5be41d993ce8321bcd9544, type: 3}
+  m_Name: MetalsLevelData
+  m_EditorClassIdentifier: 
+  LevelGameObject: {fileID: 5310311491083839475, guid: 58a7cb42b131a4387a161661bf485dde, type: 3}
+  LevelBackground: {fileID: 2800000, guid: f1bf8bd10b08f431a85d148f0475b417, type: 3}

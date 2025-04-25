@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum PegboardState
 {
@@ -10,10 +11,13 @@ public enum PegboardState
 public class PegboardMaster : MonoBehaviour
 {
     // list of all levels
-    [SerializeField] private GameObject[] levelPrefabs;
+    [SerializeField] private List<LevelData> levelDataList;
 
     [Header("Peg Types")] [SerializeField] private GameObject normalPeg;
     [SerializeField] private GameObject scorePeg;
+
+    [Header("References")] [SerializeField]
+    private RawImage bg;
     
     private GameObject currentLevel;
 
@@ -59,7 +63,9 @@ public class PegboardMaster : MonoBehaviour
         if (currentLevel != null)
             Destroy(null);
 
-        currentLevel = Instantiate(levelPrefabs[index], transform);
+        bg.texture = levelDataList[index].LevelBackground;
+
+        currentLevel = Instantiate(levelDataList[index].LevelGameObject, transform);
 
         PlaceholderPeg[] placeholderPegs = currentLevel.GetComponentsInChildren<PlaceholderPeg>();
         
