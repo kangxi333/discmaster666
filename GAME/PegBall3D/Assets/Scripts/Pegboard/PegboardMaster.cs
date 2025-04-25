@@ -127,7 +127,6 @@ public enum PegboardState
         
         for (int i = 0; i < _multiplierList.Count -1; i++)
         {
-            Debug.Log(_multiplierList[i].name);
             if (score >= scoreThresholds[i])
             {
                 _multiplierList[i].SetState(MultHUDState.ACTIVE);
