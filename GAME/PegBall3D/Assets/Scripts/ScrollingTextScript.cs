@@ -8,7 +8,7 @@ public class ScrollingTextScript : MonoBehaviour
     private string _fullString = "";
     private TMP_Text _tmpText;
     [SerializeField] private float _scrollDelay = .1f;
-    [SerializeField] public bool shouldDeleteText = true;
+    [SerializeField] private bool shouldDeleteText = true;
     
     private char _tempChar;
     

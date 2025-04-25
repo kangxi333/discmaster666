@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,30 +9,19 @@ public enum PegboardState
     Playing,
     Loading,
     WaitingForBall
-}
-
-public enum ScoreTiers
+}public class PegboardMaster : MonoBehaviour
 {
-    TimesTwo,
-    TimesThree,
-    TimesFour,
-    TimesFive,
-    TimesSix,
-    TimesEight,
-    TimesTen
-}
-
-public class PegboardMaster : MonoBehaviour
-{
-    public static readonly Dictionary<ScoreTiers, int> ScoreThresholds = new()
+    // Base scores required for a multiplier
+    public static readonly int[] scoreThresholds =
     {
-        { ScoreTiers.TimesTwo, 300},
-        { ScoreTiers.TimesThree, 480},
-        { ScoreTiers.TimesFour, 560},
-        { ScoreTiers.TimesFive, 800},
-        { ScoreTiers.TimesSix, 1000},
-        { ScoreTiers.TimesEight, 1200},
-        { ScoreTiers.TimesTen, 1400}
+        200*1,
+        200*2 + 200,
+        (int)(200*3 + 200*1.4),
+        (int)(200*4 + 200*1.8),
+        (int)(200*5 + 200*2),
+        (int)(200*6 + 200*2.4),
+        (int)(200*8 + 200*3),
+        (int)(200*10 + 200*4)
     };
     
     // list of all levels
@@ -43,7 +34,9 @@ public class PegboardMaster : MonoBehaviour
 
     [Header("References")] 
     [SerializeField] private RawImage bg;
-    [SerializeField] private List<RectTransform> _multiplierList = new List<RectTransform>();
+    [SerializeField] private List<MultComponent> _multiplierList = new List<MultComponent>();
+
+    private float MultHudAnimTime = 5f;
     
     private int _score;
     
@@ -58,6 +51,9 @@ public class PegboardMaster : MonoBehaviour
     void Start()
     {
         LoadLevel(0);
+        
+        // TODO: REMOVE ME (TEST)
+        SetScore(350);
     }
 
     // Update is called once per frame
@@ -123,8 +119,30 @@ public class PegboardMaster : MonoBehaviour
         _score += score;
         SetMultHUD(_score);
     }
+    
+    // TODO: SOMETHING IS WRONG HERE BUT I DONT KNOW WHAT YET (the 10x MULTIPLIER IS NEVER SET INACTIVE)
     private void SetMultHUD(int score)
     {
+        int highestMult = -1;
         
+        for (int i = 0; i < _multiplierList.Count -1; i++)
+        {
+            Debug.Log(_multiplierList[i].name);
+            if (score >= scoreThresholds[i])
+            {
+                _multiplierList[i].SetState(MultHUDState.ACTIVE);
+                highestMult = i;
+            }
+            else
+            {
+                _multiplierList[i].SetState(MultHUDState.INACTIVE);
+            }
+        }
+
+        if (highestMult > -1)
+        {
+            _multiplierList[highestMult+1].SetState(MultHUDState.MAIN);
+        }
     }
+    
 }

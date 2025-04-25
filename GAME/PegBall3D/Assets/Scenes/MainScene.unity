@@ -4329,26 +4329,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3117248579768357628, guid: 18bc697463b084ef59a484a734d7248d, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 38.800003
-      objectReference: {fileID: 0}
     - target: {fileID: 4562580699876067302, guid: 18bc697463b084ef59a484a734d7248d, type: 3}
       propertyPath: m_Name
       value: BoardRoot
       objectReference: {fileID: 0}
-    - target: {fileID: 5856358564697169775, guid: 18bc697463b084ef59a484a734d7248d, type: 3}
-      propertyPath: normalPeg
-      value: 
-      objectReference: {fileID: 3301659582019573342, guid: 5c6c260e8d59e415a8c03b439beb12c4, type: 3}
-    - target: {fileID: 5856358564697169775, guid: 18bc697463b084ef59a484a734d7248d, type: 3}
-      propertyPath: levelPrefabs.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5856358564697169775, guid: 18bc697463b084ef59a484a734d7248d, type: 3}
-      propertyPath: 'levelPrefabs.Array.data[0]'
-      value: 
-      objectReference: {fileID: 5310311491083839475, guid: 58a7cb42b131a4387a161661bf485dde, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

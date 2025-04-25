@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public enum MultHUDState
 {
-    UNACTIVE, // turned off
+    INACTIVE, // turned off
     ACTIVE, // turned on but not the active multiplier (e.g. if you were at mult x3 and this was x2) 
     MAIN // main multiplier (current highest mult)
 }
@@ -25,8 +25,9 @@ public class MultComponent : MonoBehaviour
     {
         switch (state)
         {
-            case MultHUDState.UNACTIVE:
+            case MultHUDState.INACTIVE:
                 gameObject.SetActive(false);
+                // Debug.Log(this.name + "is inactive!");
                 break;
             case MultHUDState.ACTIVE:
                 gameObject.SetActive(true);
