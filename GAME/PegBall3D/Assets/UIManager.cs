@@ -1,10 +1,11 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
     public ScrollingTextScript scrollingPipeText { get; private set; }
-
+    
     private void Awake()
     {
         scrollingPipeText = GetComponentInChildren<ScrollingTextScript>();
