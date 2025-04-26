@@ -1428,6 +1428,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd0049bdb304a4a64bce2f8011135b50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PegboardMaster: {fileID: 1402893869}
   _deskPosition: {fileID: 129478491}
   _gamePosition: {fileID: 1848390894}
   _shelfPosition: {fileID: 1875440742}
@@ -3570,6 +3571,17 @@ Transform:
   - {fileID: 655129426}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1402893869 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5856358564697169775, guid: 18bc697463b084ef59a484a734d7248d, type: 3}
+  m_PrefabInstance: {fileID: 2573398056792932878}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1550bd140daa84fec84325edf3d15058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1476786333
 GameObject:
   m_ObjectHideFlags: 0
@@ -3720,7 +3732,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 879df449477ce445a862e851250a24dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationAmount: 3
 --- !u!1 &1645466955
 GameObject:
   m_ObjectHideFlags: 0
@@ -6060,6 +6071,30 @@ PrefabInstance:
     - target: {fileID: 609788976017374032, guid: 6b765fcb9128c4d7bb8515855236dff1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1931492872261107846, guid: 6b765fcb9128c4d7bb8515855236dff1, type: 3}
+      propertyPath: m_Color.b
+      value: 0.5226504
+      objectReference: {fileID: 0}
+    - target: {fileID: 1931492872261107846, guid: 6b765fcb9128c4d7bb8515855236dff1, type: 3}
+      propertyPath: m_Color.g
+      value: 0.8207547
+      objectReference: {fileID: 0}
+    - target: {fileID: 1931492872261107846, guid: 6b765fcb9128c4d7bb8515855236dff1, type: 3}
+      propertyPath: m_Color.r
+      value: 0.62937915
+      objectReference: {fileID: 0}
+    - target: {fileID: 1931492872261107846, guid: 6b765fcb9128c4d7bb8515855236dff1, type: 3}
+      propertyPath: m_Intensity
+      value: 1.06
+      objectReference: {fileID: 0}
+    - target: {fileID: 1931492872261107846, guid: 6b765fcb9128c4d7bb8515855236dff1, type: 3}
+      propertyPath: m_Shadows.m_Resolution
+      value: 128
+      objectReference: {fileID: 0}
+    - target: {fileID: 8143516148255197131, guid: 6b765fcb9128c4d7bb8515855236dff1, type: 3}
+      propertyPath: m_AdditionalLightsShadowResolutionTier
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

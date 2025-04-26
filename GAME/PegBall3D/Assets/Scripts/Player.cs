@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
@@ -11,7 +12,13 @@ public class Player : MonoBehaviour
     private float _moveSpeed = 2f;
     private float _rotateSpeed = 5f;
 
+    private float _timescaleMult = 4f;
+    private float _timescaleSpeedMult = 8f; // terrible naming but how fast it goes to desired timescaleMult
+
     private bool _isMoving = false;
+
+    private Vector2 lastMousePos;
+    private Vector2 lastScroll;
     
     public bool IsFocused { get; private set; }
 
@@ -34,7 +41,7 @@ public class Player : MonoBehaviour
     {
         var input = _playerInput.Player;
 
-        if (input.Tab.WasPressedThisFrame())
+        if (input.Tab.WasPressedThisFrame() && GameMaster.Instance.CurrentPosition != CameraPosition.Shelf)
         {
             IsFocused = !IsFocused;
             GameMaster.Instance.SetPlayerFocused(IsFocused);
@@ -53,7 +60,34 @@ public class Player : MonoBehaviour
         {
             _isMoving = false;
         }
+
         
+
+        if (IsFocused && GameMaster.Instance.IsInGame)
+        {
+            Vector2 mousePos = Mouse.current.position.ReadValue();
+            
+            if (mousePos != lastMousePos)
+            {
+                GameMaster.Instance.PegboardMaster.SetAimDirection(mousePos);
+            }
+            
+            if (_playerInput.Player.Fire.WasPressedThisFrame())
+            {
+                GameMaster.Instance.PegboardMaster.TryShootBall();
+            }
+            
+            lastMousePos = mousePos; // always a frame behind
+        }
+
+        if (_playerInput.Player.SpeedUp.IsPressed()) // changes timescale on rmb
+        {
+            Time.timeScale = Mathf.Lerp(Time.timeScale, _timescaleMult, _timescaleSpeedMult * Time.deltaTime);
+        }
+        else
+        {
+            Time.timeScale = Mathf.Lerp(Time.timeScale, 1, _timescaleSpeedMult * Time.deltaTime);
+        }
     }
 
     public void MoveToPosition(Transform position)

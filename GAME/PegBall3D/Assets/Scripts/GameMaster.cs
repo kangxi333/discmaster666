@@ -20,8 +20,8 @@ public enum ButtonDirection
 public class GameMaster : MonoBehaviour
 {
     public static GameMaster Instance { get; private set; }
-    
-    public PegboardMaster PegboardMaster { get; private set; }
+
+    [SerializeField] public PegboardMaster PegboardMaster;
 
     [Header("Camera Positions")] 
     [SerializeField] private Transform _deskPosition;
@@ -43,6 +43,15 @@ public class GameMaster : MonoBehaviour
     private CameraPosition currentPosition = CameraPosition.Desk;
     
     public bool IsPlayerFocused { get; private set; }
+    public bool IsInGame
+    {
+        get => (currentPosition == CameraPosition.Game);
+    }
+    
+    public CameraPosition CurrentPosition
+    {
+        get => currentPosition;
+    }
 
     private void Awake()
     {
@@ -62,6 +71,7 @@ public class GameMaster : MonoBehaviour
             { CameraPosition.UpgradeMonitor, _upgradeMonitorPosition }
         };
         
+        MoveCameraTo(currentPosition);
     }
 
     private void HandleFocusSwitch()

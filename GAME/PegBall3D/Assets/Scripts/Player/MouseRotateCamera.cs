@@ -1,9 +1,12 @@
 using System;
 using UnityEngine;
 
-public class CursorRotate : MonoBehaviour
+public class MouseRotateCamera : MonoBehaviour
 {
-    public float rotationAmount = 1.75f; // Max degrees to rotate
+    private const float RotationAmountUnfocused = 1.75f; // Max degrees to rotate
+    private const float RotationAmountFocused = .55f; // Max degrees to rotate
+
+    private float _rotationAmount;
 
     private float _smoothSpeed = 5f;
 
@@ -25,8 +28,10 @@ public class CursorRotate : MonoBehaviour
         float x = (mousePos.x / Screen.width - 0.5f) * 2f;
         float y = (mousePos.y / Screen.height - 0.5f) * 2f;
 
-        float targetX = -y * rotationAmount; // invert Y
-        float targetY = x * rotationAmount;
+        _rotationAmount = GameMaster.Instance.IsPlayerFocused ? RotationAmountFocused : RotationAmountUnfocused;
+
+        float targetX = -y * _rotationAmount; // invert Y
+        float targetY = x * _rotationAmount;
 
         Quaternion targetRotation = Quaternion.Euler(defaultRotation.x + targetX, defaultRotation.y + targetY, defaultRotation.z);
 
