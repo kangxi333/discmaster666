@@ -32,6 +32,8 @@ public class GameMaster : MonoBehaviour
     [Header("Other References")]
     [SerializeField] private Player player;
 
+    [SerializeField] private UIManager _uiManager;
+
     private Dictionary<CameraPosition, Transform> cameraPositions;
     private List<CameraPosition> cyclePositions = new List<CameraPosition>
     {
@@ -39,6 +41,7 @@ public class GameMaster : MonoBehaviour
         CameraPosition.Shelf,
         CameraPosition.Upgrade
     };
+    
     private int currentCycleIndex = 0;
     private CameraPosition currentPosition = CameraPosition.Desk;
     
@@ -72,6 +75,8 @@ public class GameMaster : MonoBehaviour
         };
         
         MoveCameraTo(currentPosition);
+        IsPlayerFocused = false;
+        _uiManager.SetButtonState(!IsPlayerFocused);
     }
 
     private void HandleFocusSwitch()
@@ -132,14 +137,24 @@ public class GameMaster : MonoBehaviour
         {
             currentCycleIndex = foundIndex;
         }
-
-
     }
 
-    public void SetPlayerFocused(bool focus)
+    public void TrySetPlayerFocused(bool focus)
     {
-        IsPlayerFocused = focus;
-        HandleFocusSwitch();
+        if (CurrentPosition != CameraPosition.Shelf)
+        {
+            if (focus != IsPlayerFocused)
+            {
+                IsPlayerFocused = focus;
+                HandleFocusSwitch();
+                _uiManager.SetButtonState(!IsPlayerFocused);
+            }
+        }
     }
-    
+
+
+    public void ResetPlayButton()
+    {
+        _uiManager.ResetPlayButton();
+    }
 }

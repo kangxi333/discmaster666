@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class MouseRotateCamera : MonoBehaviour
 {
-    private const float RotationAmountUnfocused = 1.75f; // Max degrees to rotate
-    private const float RotationAmountFocused = .55f; // Max degrees to rotate
+    private const float RotationAmountUnfocused = 2.75f; // Max degrees to rotate unfocused
+    private const float RotationAmountFocused = .55f; // Max degrees to rotate focused
 
     private float _rotationAmount;
 

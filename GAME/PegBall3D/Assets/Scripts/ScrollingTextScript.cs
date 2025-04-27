@@ -24,9 +24,9 @@ public class ScrollingTextScript : MonoBehaviour
     {
         _fullString += text;
     }
-    
     IEnumerator ScrollText()
     {
+        _fullString = _tmpText.text;
         while (true)
         {
             if (shouldDeleteText)
@@ -46,12 +46,6 @@ public class ScrollingTextScript : MonoBehaviour
             yield return new WaitForSeconds(_scrollDelay);
         }
 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
 }

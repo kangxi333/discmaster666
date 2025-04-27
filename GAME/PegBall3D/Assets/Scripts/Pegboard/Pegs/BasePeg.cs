@@ -9,6 +9,7 @@ using UnityEngine;
 [RequireComponent(typeof(CircleCollider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(AudioClip))]
 public abstract class BasePeg : MonoBehaviour
 {
 
@@ -37,6 +38,7 @@ public abstract class BasePeg : MonoBehaviour
         IsHit = true;
         
         _spriteRenderer.sprite = PegData.pegSpriteHit;
+        GameMaster.Instance.PegboardMaster.RegisterHitPeg(this);
         
         // add scoring and addition to deletion list for manager here
         return false;

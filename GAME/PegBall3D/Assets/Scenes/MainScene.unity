@@ -1435,6 +1435,7 @@ MonoBehaviour:
   _upgradePosition: {fileID: 2034816796}
   _upgradeMonitorPosition: {fileID: 655129426}
   player: {fileID: 412224452}
+  _uiManager: {fileID: 1161949447}
 --- !u!4 &507516346
 Transform:
   m_ObjectHideFlags: 0
@@ -3047,6 +3048,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1f08e4649b57e499d8a7e8b46aeb759c, type: 3}
+--- !u!114 &1161949447 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6985124031006411322, guid: 13552a300e84b4fa6a2306966504b50e, type: 3}
+  m_PrefabInstance: {fileID: 8515198105329332151}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 457c0ed5179f84058b2341b7808335f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1254717385
 GameObject:
   m_ObjectHideFlags: 0
@@ -6074,15 +6086,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1931492872261107846, guid: 6b765fcb9128c4d7bb8515855236dff1, type: 3}
       propertyPath: m_Color.b
-      value: 0.5226504
+      value: 0.8537736
       objectReference: {fileID: 0}
     - target: {fileID: 1931492872261107846, guid: 6b765fcb9128c4d7bb8515855236dff1, type: 3}
       propertyPath: m_Color.g
-      value: 0.8207547
+      value: 0.98464674
       objectReference: {fileID: 0}
     - target: {fileID: 1931492872261107846, guid: 6b765fcb9128c4d7bb8515855236dff1, type: 3}
       propertyPath: m_Color.r
-      value: 0.62937915
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1931492872261107846, guid: 6b765fcb9128c4d7bb8515855236dff1, type: 3}
       propertyPath: m_Intensity
@@ -6152,6 +6164,10 @@ PrefabInstance:
     - target: {fileID: 4562580699876067302, guid: 18bc697463b084ef59a484a734d7248d, type: 3}
       propertyPath: m_Name
       value: BoardRoot
+      objectReference: {fileID: 0}
+    - target: {fileID: 6011171107065737092, guid: 18bc697463b084ef59a484a734d7248d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6275,6 +6291,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerHUDRoot
       objectReference: {fileID: 0}
+    - target: {fileID: 1779245503840031969, guid: 13552a300e84b4fa6a2306966504b50e, type: 3}
+      propertyPath: m_SpriteState.m_DisabledSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: cb6696add4a6a415d9accda3c2b1bb6b, type: 3}
+    - target: {fileID: 4365807515390021156, guid: 13552a300e84b4fa6a2306966504b50e, type: 3}
+      propertyPath: m_SpriteState.m_DisabledSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f4d757c293756434e9fe46a2cbfda41b, type: 3}
+    - target: {fileID: 5741635170799163791, guid: 13552a300e84b4fa6a2306966504b50e, type: 3}
+      propertyPath: m_SpriteState.m_DisabledSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 2b4de289846044c6c9e69d90fdd5a260, type: 3}
     - target: {fileID: 7865283771435189679, guid: 13552a300e84b4fa6a2306966504b50e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 16
@@ -6315,6 +6343,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8011324168508784855, guid: 13552a300e84b4fa6a2306966504b50e, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -286
+      objectReference: {fileID: 0}
+    - target: {fileID: 8011324168508784855, guid: 13552a300e84b4fa6a2306966504b50e, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -116
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6325,6 +6361,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 832575519}
+  - {fileID: 507516346}
   - {fileID: 2573398056792932878}
   - {fileID: 823284768}
   - {fileID: 8515198105329332151}
@@ -6342,7 +6379,6 @@ SceneRoots:
   - {fileID: 142256570792059382}
   - {fileID: 1689136543}
   - {fileID: 1368346698}
-  - {fileID: 507516346}
   - {fileID: 196099704}
   - {fileID: 351281074}
   - {fileID: 1333927270}
