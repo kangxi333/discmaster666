@@ -10,7 +10,7 @@ public class ScoresHUD : PegboardHUDBase
 
     private Unity.Mathematics.Random rand = new Unity.Mathematics.Random();    
 
-    public void UpdateHUD()
+    public override void UpdateHUD()
     {
         // randomises background
         _backgroundImage.sprite = _backgroundsList[rand.NextInt(_backgroundsList.Count)];

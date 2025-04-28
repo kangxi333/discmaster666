@@ -86,6 +86,11 @@ public class PegboardMaster : MonoBehaviour
     {
         get => _levelDifficulty;
     }
+
+    public int MoneyPegValue
+    {
+        get => (int)(_levelDifficulty * (RequiredScore / 10));
+    }
     
     
     private void Awake()

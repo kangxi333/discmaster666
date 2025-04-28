@@ -45,6 +45,13 @@ public class GameMaster : MonoBehaviour
     private int currentCycleIndex = 0;
     private CameraPosition currentPosition = CameraPosition.Desk;
     
+    public float ScoreMultiplier { get; private set; }
+    public float BallSize { get; private set; }
+    public float RequiredScoreMultiplier { get; private set; }
+    public int ExtraBalls { get; private set; }
+    public int BonusMultiballPegs { get; private set; }
+    public int BonusMoneyPegs { get; private set; }
+    
     public bool IsPlayerFocused { get; private set; }
     public bool IsInGame
     {
