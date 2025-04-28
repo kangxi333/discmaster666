@@ -11,6 +11,11 @@ public class NormalPeg : BasePeg
         
     }
 
+    protected override void Hit()
+    {
+        base.Hit();
+    }
+
     // Update is called once per frame
     void Update()
     {

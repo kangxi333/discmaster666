@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0729f1e6c5be41d993ce8321bcd9544, type: 3}
+  m_Name: EgyptLD
+  m_EditorClassIdentifier: 
+  LevelGameObject: {fileID: 1018367041259343734, guid: ad879146fe61a47f18c6331a2fe51821, type: 3}
+  LevelBackground: {fileID: 2800000, guid: 207379bd66d4447c7ba6b0336ba6e4bd, type: 3}
+  LevelName: Egypt

@@ -12,7 +12,11 @@ public class BucketCatch : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        parentBucket?.OnChildTriggerEntered(col);
+        // parentBucket.OnChildTriggerEntered(col);
+        if (col.CompareTag("Ball"))
+        {
+            GameMaster.Instance.PegboardMaster.BallInBucket();
+        }
     }
     
 }

@@ -42,7 +42,7 @@ public class UIManager : MonoBehaviour
     {
         leftButton.interactable = enabled;
         rightButton.interactable = enabled;
-        playButton.interactable = !enabled;
+        playButton.interactable = GameMaster.Instance.IsInGame;
     }
     
 }

@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0729f1e6c5be41d993ce8321bcd9544, type: 3}
+  m_Name: WolfLD
+  m_EditorClassIdentifier: 
+  LevelGameObject: {fileID: 4265680296250474835, guid: ba0e61ec405f4460fa91a7fbf321e0bb, type: 3}
+  LevelBackground: {fileID: 2800000, guid: 71c34a7eeb10e4697900e732c356b3ca, type: 3}
+  LevelName: Wolf

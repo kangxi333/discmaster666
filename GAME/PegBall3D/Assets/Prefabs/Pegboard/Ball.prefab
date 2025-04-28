@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2281139021386598091}
   - component: {fileID: 2304034196189097272}
   - component: {fileID: 1448704523621166366}
+  - component: {fileID: 6771289403027787852}
   m_Layer: 3
   m_Name: Ball
   m_TagString: Ball
@@ -269,3 +270,15 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
+--- !u!114 &6771289403027787852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6003041238468686840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7308e24ea76745d780d5000552fe1df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

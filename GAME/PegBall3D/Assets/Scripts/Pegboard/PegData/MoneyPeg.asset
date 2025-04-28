@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e377435546bc43408ab891096a1aa2b, type: 3}
+  m_Name: MoneyPeg
+  m_EditorClassIdentifier: 
+  <pegType>k__BackingField: 2
+  <pegShape>k__BackingField: 0
+  <pegValue>k__BackingField: 350
+  <pegSpriteNormal>k__BackingField: {fileID: 21300000, guid: 53f505c1503d142d2b9bba0778b572a7, type: 3}
+  <pegSpriteHit>k__BackingField: {fileID: 21300000, guid: fc7019199e6b2443d842a9ee49fbec1c, type: 3}

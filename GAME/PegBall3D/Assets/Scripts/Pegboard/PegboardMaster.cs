@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -22,6 +23,9 @@ public enum AimNudge
 
 public class PegboardMaster : MonoBehaviour
 {
+    
+    private static System.Random rng = new System.Random();
+    
     public static readonly int[] scoreThresholds =
     {
         200 * 1,
@@ -39,6 +43,7 @@ public class PegboardMaster : MonoBehaviour
     [Header("Peg Types")] 
     [SerializeField] private GameObject normalPeg;
     [SerializeField] private GameObject scorePeg;
+    [SerializeField] private GameObject moneyPeg;
 
     [Header("Ball")] 
     [SerializeField] private GameObject ballPrefab;
@@ -47,34 +52,78 @@ public class PegboardMaster : MonoBehaviour
     [SerializeField] private RawImage bg;
     [SerializeField] private List<MultComponent> _multiplierList;
     [SerializeField] private TMP_Text _scoreText;
+    [SerializeField] private TMP_Text _ballsLeftText;
+    [SerializeField] private TMP_Text _pegsLeftText;
+    
     [SerializeField] private GameObject _pegboard;
     [SerializeField] private PegboardUIManager _pegboardUIManager;
     [SerializeField] private GameObject _launcherPos;
     [SerializeField] private GameObject dotPrefab;
 
-    private float MultHudAnimTime = 5f;
+    [Header("audio refs")] 
+    [SerializeField] private AudioClip normalPegAudioClip;
+    [SerializeField] private AudioClip moneyPegAudioClip;
+    [SerializeField] private AudioClip pegDeleteAudioClip;
+    [SerializeField] private AudioClip bucketAudioClip;
+
+    
+    // private float MultHudAnimTime = 5f;
     private float _dotSpacing = 0.15f;
-    private int _score;
     private float _ballShootForce = 7f;
     private float _ballRadius;
-    private int _currentLevelIndex = -1;
+    private int _currentLevelIndex = 0;
     private int _levelDifficulty = 1;
     private float _maxDots = 20;
     private float _maxDistance = 4f;
-    private bool _canShoot;
+    // private bool _canShoot;
     private Vector2 direction;
+    private int _score;
 
+    private int currentMult = 0;
+
+    private readonly int[] multValueArray = new[]
+    {
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        10
+    };
+    
+    private int thisShotScore;
+
+    private const int RedPegAmount = 18;
+    private int redPegsLeft;
+
+    private const int StartingBalls = 15;
+    private int ballsLeft;
+    
     private PegboardState _pegboardState = PegboardState.LoadingLevel;
     private LayerMask aimDotCollisionMask;
 
     private GameObject currentLevel;
     private List<GameObject> dots = new();
     private List<BasePeg> _pegList = new();
-    private List<GameObject> _ballsList = new();
-    
+    private Queue<BasePeg> _hitPegList = new();
+    private GameObject _ball;
+    private bool doesBallExist = false;
+    private Rigidbody2D _ballRB;
+
+    private float _pegStartDespawnTimer = 0f;
+    private const float PegStartDespawnTime = .85f;
+    private float _pegDespawnTimer = 0f;
+    private const float PegDespawnTime = .08f;
+
+    private AudioSource _sfxAudioSource;
+    private AudioSource _bucketAudioSource;
+
+    private BasePeg thisPeg;
     public int RequiredScore
     {
-        get => (200 * (int)Math.Pow(_levelDifficulty, 2));
+        get => (450 * (int)Math.Pow(_levelDifficulty, 2));
     }
 
     public string CurrentLevelName
@@ -92,17 +141,22 @@ public class PegboardMaster : MonoBehaviour
         get => (int)(_levelDifficulty * (RequiredScore / 10));
     }
     
-    
     private void Awake()
     {
         aimDotCollisionMask = LayerMask.GetMask("2D");
+
+        _sfxAudioSource = gameObject.AddComponent<AudioSource>();
+        _bucketAudioSource = gameObject.AddComponent<AudioSource>();
+
     }
 
     void Start()
     {
-        LoadNextLevel();
+        // LoadNextLevel();
         SetPegboardState(PegboardState.LoadingLevel);
         SetScore(0);
+        
+        UpdatePegboardHUD();
     }
     
     public void RegisterHitPeg(BasePeg peg)
@@ -110,22 +164,80 @@ public class PegboardMaster : MonoBehaviour
         if (_pegList.Contains(peg))
         {
             _pegList.Remove(peg);
+            _hitPegList.Enqueue(peg);
+
+            _sfxAudioSource.pitch = 1f * (Mathf.Pow(2,_hitPegList.Count / 12f) * UnityEngine.Random.Range(0.995f, 1.005f));
+
+            AudioClip pegSound;
+            
+            switch (peg.PegType)
+            {
+                case PegType.NormalPeg:
+                    pegSound = normalPegAudioClip;
+                    break;
+                case PegType.ScorePeg:
+                    pegSound = normalPegAudioClip;
+                    redPegsLeft--;
+                    break;
+                case PegType.MoneyPeg:
+                    pegSound = moneyPegAudioClip;
+                    break;
+                default:
+                    pegSound = normalPegAudioClip;
+                    break;
+            }
+            _sfxAudioSource.PlayOneShot(pegSound, 0.2f);
+
+            thisShotScore += peg.PegData.pegValue;
+            Debug.Log(peg.PegData.pegValue);
+            
+            _pegStartDespawnTimer = 0;
+
         }
     }
 
 
+    private void FixedUpdate()
+    {
+        UpdatePegboardHUD();
+    }
+
     void Update()
     {
-        CheckHitPegs();
+        // CheckHitPegs();
 
         switch (_pegboardState)
         {
             case PegboardState.ReadyToShoot:
+                UpdateAimDots();
                 
                 break;
             case PegboardState.LoadingLevel:
                 break;
             case PegboardState.WaitingForBall:
+
+                if (doesBallExist && _ball.transform.position.y < -3.1)
+                {
+                    Destroy(_ball);
+                    doesBallExist = false;
+                    // once ball is gone score that ball's points
+                    AddScore(thisShotScore * currentMult);
+                    GameMaster.Instance.AddTextToPipe($"SCORED {thisShotScore * currentMult} POINTS!");
+                }
+
+                if (!doesBallExist && _hitPegList.Count == 0)
+                {
+                    if (ballsLeft > 0)
+                    {
+                        SetPegboardState(PegboardState.ReadyToShoot);
+                    }
+                    else
+                    {
+                        ScoreLevel();
+                    }
+                }
+                
+                
                 break;
             case PegboardState.ResultsScreen:
                 break;
@@ -133,25 +245,50 @@ public class PegboardMaster : MonoBehaviour
                 break;
         }
 
-        UpdateAimDots();
-    }
-
-    private void CheckHitPegs()
-    {
-        for (int i = _pegList.Count - 1; i >= 0; i--)
+        bool ShouldUpdateStartDespawnTimer = false;
+        
+        if (!doesBallExist && _hitPegList.Count != 0)
         {
-            if (_pegList[i].IsHit)
+            ShouldUpdateStartDespawnTimer = true;
+        }
+        else if (doesBallExist && _ballRB.linearVelocity.magnitude < 0.05f)
+        {
+            ShouldUpdateStartDespawnTimer = true;
+        }
+        
+        if (ShouldUpdateStartDespawnTimer)
+            _pegStartDespawnTimer += Time.deltaTime;
+
+
+
+        if (_pegStartDespawnTimer >= PegStartDespawnTime && _hitPegList.Count > 0)
+        {
+            _pegDespawnTimer += Time.deltaTime;
+
+            if (_pegDespawnTimer >= PegDespawnTime)
             {
-                Destroy(_pegList[i].gameObject);
-                _pegList.RemoveAt(i);
+                _sfxAudioSource.pitch = 1f / (Mathf.Pow(2f,_hitPegList.Count*3f / 12f));
+                _sfxAudioSource.PlayOneShot(pegDeleteAudioClip, 0.6f);
+                    
+                _pegDespawnTimer = 0f;
+                thisPeg = _hitPegList.Peek();
+                thisPeg.gameObject.SetActive(false);
+                Destroy(thisPeg.gameObject);
+                _hitPegList.Dequeue();
+
             }
         }
     }
-
     public void StartGame()
     {
         SetPegboardState(PegboardState.ReadyToShoot);
-        
+    }
+
+    public void BallInBucket()
+    {
+        _bucketAudioSource.PlayOneShot(bucketAudioClip);
+        ballsLeft++;
+        GameMaster.Instance.AddTextToPipe("bucket shot!");
     }
 
     public void SetPegboardState(PegboardState newState)
@@ -162,24 +299,28 @@ public class PegboardMaster : MonoBehaviour
         switch (_pegboardState)
         {
             case PegboardState.ReadyToShoot:
+                shouldPegboardBeActive = true;
+                _pegboardUIManager.Show(PegboardScreen.Pegboard);
+                thisShotScore = 0;
+                break;
             case PegboardState.WaitingForBall:
                 shouldPegboardBeActive = true;
                 _pegboardUIManager.Show(PegboardScreen.Pegboard);
-                _canShoot = true;
+                
                 break;
             case PegboardState.LoadingLevel:
                 _pegboardUIManager.Show(PegboardScreen.Loading);
                 LoadNextLevel();
                 GameMaster.Instance.ResetPlayButton(); // turns play button back on
-                _canShoot = false;
+                // _canShoot = false;
                 break;
             case PegboardState.ResultsScreen:
                 _pegboardUIManager.Show(PegboardScreen.Scores);
-                _canShoot = false;
+                // _canShoot = false;
                 break;
             case PegboardState.LoseScreen:
                 _pegboardUIManager.Show(PegboardScreen.Lose);
-                _canShoot = false;
+                // _canShoot = false;
                 break;
         }
 
@@ -196,7 +337,30 @@ public class PegboardMaster : MonoBehaviour
             RaiseDifficulty();
         }
 
+        ballsLeft = StartingBalls + GameMaster.Instance.ExtraBalls;
+        redPegsLeft = RedPegAmount;
+
         LoadLevel(_currentLevelIndex);
+    }
+
+    private void ScoreLevel()
+    {
+        if (redPegsLeft > 0)
+        {
+            if (GameMaster.Instance.BonusLives > 0)
+            {
+                GameMaster.Instance.BonusLives--;
+                SetPegboardState(PegboardState.ResultsScreen);
+            }
+            else
+            {
+                SetPegboardState(PegboardState.LoseScreen);
+            }
+        }
+        else
+        {
+            SetPegboardState(PegboardState.ResultsScreen);
+        }
     }
 
     private void LoadLevel(int index)
@@ -210,14 +374,33 @@ public class PegboardMaster : MonoBehaviour
 
         
         _pegList.Clear();
-        foreach (var placeholder in currentLevel.GetComponentsInChildren<PlaceholderPeg>())
+        // randomises list
+        var placeholderPegs = currentLevel.GetComponentsInChildren<PlaceholderPeg>().OrderBy(_ => rng.Next()).ToList();
+
+        int i = 0;
+        int moneyPegsAdded = 0;
+        foreach (var placeholder in placeholderPegs)
         {
-            var peg = Instantiate(normalPeg, placeholder.transform.position, placeholder.transform.rotation, _pegboard.transform);
+            GameObject pegToAdd;
+            if (i < 25)
+            {
+                pegToAdd = scorePeg;
+                i++;
+            }
+            else if (moneyPegsAdded < GameMaster.Instance.BonusMoneyPegs)
+            {
+                pegToAdd = moneyPeg;
+                moneyPegsAdded++;
+            }
+            else
+            {
+                pegToAdd = normalPeg;
+            }
+            var peg = Instantiate(pegToAdd, placeholder.transform.position, placeholder.transform.rotation, _pegboard.transform);
             _pegList.Add(peg.GetComponent<BasePeg>());
             Destroy(placeholder.gameObject);
         }
-
-
+        
         _ballRadius = ballPrefab.transform.localScale.x * ballPrefab.GetComponent<CircleCollider2D>().radius;
         
         
@@ -231,20 +414,20 @@ public class PegboardMaster : MonoBehaviour
     public void SetScore(int score)
     {
         _score = score;
-        UpdateMultHUD();
+        // UpdateMultHUD();
         _scoreText.text = _score.ToString("D6");
     }
 
     public void AddScore(int points)
     {
         _score += points;
-        UpdateMultHUD();
+        // UpdateMultHUD();
         _scoreText.text = _score.ToString("D6");
     }
 
-    private void UpdateMultHUD()
+    private void UpdatePegboardHUD()
     {
-        int highestMult = -1;
+        int highestMult = 1;
         for (int i = 0; i < scoreThresholds.Length; i++)
         {
             if (_score >= scoreThresholds[i])
@@ -258,28 +441,43 @@ public class PegboardMaster : MonoBehaviour
             }
         }
 
+        currentMult = multValueArray[highestMult];
+
         if (highestMult >= 0 && highestMult < _multiplierList.Count)
         {
             _multiplierList[highestMult].SetState(MultHUDState.MAIN);
         }
+        
+        
+
+        _scoreText.text = _score.ToString("D6");
+        _pegsLeftText.text = redPegsLeft.ToString("D2");
+        _ballsLeftText.text = ballsLeft.ToString("D2");
     }
     
-    public void StartPegboardGame()
-    {
-        
-    }
-
     public void TryShootBall()
     {
-        if (!_canShoot) return;
+        if (_pegboardState != PegboardState.ReadyToShoot) return;
 
-        GameObject ball = Instantiate(ballPrefab, _launcherPos.transform.position, Quaternion.identity, transform);
-        _ballsList.Add(ball);
+        if (ballsLeft > 0)
+        {
+            GameObject ball = Instantiate(ballPrefab, _launcherPos.transform.position, Quaternion.identity, transform);
+            _ball = ball;
+            doesBallExist = true;
+            _ballRB = _ball.GetComponent<Rigidbody2D>();
 
-        ball.GetComponent<Rigidbody2D>().AddForce(direction * _ballShootForce, ForceMode2D.Impulse);
+            ball.GetComponent<Rigidbody2D>().AddForce(direction * _ballShootForce, ForceMode2D.Impulse);
 
-        _canShoot = false;
-        SetPegboardState(PegboardState.WaitingForBall);
+            ballsLeft--;
+
+            SetPegboardState(PegboardState.WaitingForBall);
+        }
+        else
+        {
+            ScoreLevel();
+        }
+
+
     }
 
     public void SetAimDirection(Vector2 screenPosition)
@@ -335,4 +533,5 @@ public class PegboardMaster : MonoBehaviour
         dot.transform.localScale *= sizeMultiplier;
         dots.Add(dot);
     }
+    
 }

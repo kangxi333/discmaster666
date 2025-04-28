@@ -4,7 +4,7 @@ public enum PegType
 {
     NormalPeg = 0,
     ScorePeg = 1,
-    SpecialPeg = 2
+    MoneyPeg = 2
 }
 
 public enum PegShape

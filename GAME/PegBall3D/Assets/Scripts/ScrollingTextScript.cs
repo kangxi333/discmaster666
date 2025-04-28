@@ -33,7 +33,11 @@ public class ScrollingTextScript : MonoBehaviour
             {
                 if (_fullString.Length > 0)
                     _fullString = _fullString.Substring(1);
-                _fullString += "–";
+
+                if (_fullString.Length <= 15)
+                {
+                    _fullString += "–";
+                }
             }
             else
             {

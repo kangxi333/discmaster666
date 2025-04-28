@@ -19,6 +19,12 @@ public enum ButtonDirection
 }
 public class GameMaster : MonoBehaviour
 {
+    private enum Song
+    {
+        Song2,
+        Game,
+        Console
+    }
     public static GameMaster Instance { get; private set; }
 
     [SerializeField] public PegboardMaster PegboardMaster;
@@ -34,6 +40,14 @@ public class GameMaster : MonoBehaviour
 
     [SerializeField] private UIManager _uiManager;
 
+    [Header("songs")]
+    [SerializeField] private AudioClip song2;
+    [SerializeField] private AudioClip consoleMusic;
+    [SerializeField] private AudioClip gameMusic;
+
+    private AudioSource _musicPlayer;
+    private Song currentSong;
+
     private Dictionary<CameraPosition, Transform> cameraPositions;
     private List<CameraPosition> cyclePositions = new List<CameraPosition>
     {
@@ -44,15 +58,19 @@ public class GameMaster : MonoBehaviour
     
     private int currentCycleIndex = 0;
     private CameraPosition currentPosition = CameraPosition.Desk;
+
+    public float ScoreMultiplier = 1f;
+    public float ScoreMultiplierMultiplier = 1f;
+    public float BallSizeMultiplier = 1f;
+    public float RequiredScoreMultiplier = 1f;
+    public int ExtraBalls = 1;
+    public int BonusMoneyPegs = 0;
+    public int BonusLives = 0;
     
-    public float ScoreMultiplier { get; private set; }
-    public float BallSize { get; private set; }
-    public float RequiredScoreMultiplier { get; private set; }
-    public int ExtraBalls { get; private set; }
-    public int BonusMultiballPegs { get; private set; }
-    public int BonusMoneyPegs { get; private set; }
+    public int CurrentScore { get; private set; }
     
     public bool IsPlayerFocused { get; private set; }
+    
     public bool IsInGame
     {
         get => (currentPosition == CameraPosition.Game);
@@ -71,6 +89,8 @@ public class GameMaster : MonoBehaviour
             return;
         }
         Instance = this;
+
+        _musicPlayer = GetComponent<AudioSource>();
         
         cameraPositions = new Dictionary<CameraPosition, Transform>
         {
@@ -84,6 +104,12 @@ public class GameMaster : MonoBehaviour
         MoveCameraTo(currentPosition);
         IsPlayerFocused = false;
         _uiManager.SetButtonState(!IsPlayerFocused);
+    }
+
+    private void Start()
+    {
+        SetSong(Song.Console);
+        SetSong(Song.Song2);
     }
 
     private void HandleFocusSwitch()
@@ -130,6 +156,11 @@ public class GameMaster : MonoBehaviour
         }
     }
 
+    public void AddTextToPipe(string text)
+    {
+        _uiManager.scrollingPipeText.AddText(text);
+    }
+
     public void MoveCameraTo(CameraPosition newPosition)
     {
         currentPosition = newPosition;
@@ -144,6 +175,52 @@ public class GameMaster : MonoBehaviour
         {
             currentCycleIndex = foundIndex;
         }
+
+        switch (currentPosition)
+        {
+            case CameraPosition.Desk:
+                SetSong(Song.Song2);
+                break;
+            case CameraPosition.Game:
+                SetSong(Song.Game);
+                break;
+            case CameraPosition.Shelf:
+                SetSong(Song.Song2);
+                break;
+            case CameraPosition.Upgrade:
+                SetSong(Song.Song2);
+                break;
+            case CameraPosition.UpgradeMonitor:
+                SetSong(Song.Console);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
+
+    private void SetSong(Song song)
+    {
+        if (song != currentSong)
+        {
+            currentSong = song;
+            switch (currentSong)
+            {
+                case Song.Song2:
+                    _musicPlayer.clip = song2;
+                    break;
+                case Song.Game:
+                    _musicPlayer.clip = gameMusic;
+                    break;
+                case Song.Console:
+                    _musicPlayer.clip = consoleMusic;
+                    break;
+                default:
+                    _musicPlayer.clip = song2;
+                    break;
+            }
+            _musicPlayer.Play();
+        }
+        
     }
 
     public void TrySetPlayerFocused(bool focus)
@@ -159,9 +236,18 @@ public class GameMaster : MonoBehaviour
         }
     }
 
-
     public void ResetPlayButton()
     {
         _uiManager.ResetPlayButton();
+    }
+
+    public void AddScore(int scoreToAdd)
+    {
+        CurrentScore = scoreToAdd;
+    }
+
+    public void SetScore(int score)
+    {
+        CurrentScore = score;
     }
 }

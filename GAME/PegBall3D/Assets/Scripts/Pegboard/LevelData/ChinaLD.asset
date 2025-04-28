@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0729f1e6c5be41d993ce8321bcd9544, type: 3}
+  m_Name: ChinaLD
+  m_EditorClassIdentifier: 
+  LevelGameObject: {fileID: 4844293457078761859, guid: 39e9accba4d474e7caae30a7cbe6187d, type: 3}
+  LevelBackground: {fileID: 2800000, guid: f1ecb0c700dc547d9ad2a4e4b2391066, type: 3}
+  LevelName: China

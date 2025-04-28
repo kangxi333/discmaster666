@@ -9,7 +9,6 @@ using UnityEngine;
 [RequireComponent(typeof(CircleCollider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(SpriteRenderer))]
-[RequireComponent(typeof(AudioClip))]
 public abstract class BasePeg : MonoBehaviour
 {
 
@@ -32,16 +31,14 @@ public abstract class BasePeg : MonoBehaviour
         }
     }
 
-    protected virtual bool Hit()
+    protected virtual void Hit()
     {
-        if (IsHit) return true; // cancels early if already hit
+        if (IsHit) return; // cancels early if already hit
         IsHit = true;
         
         _spriteRenderer.sprite = PegData.pegSpriteHit;
         GameMaster.Instance.PegboardMaster.RegisterHitPeg(this);
         
         // add scoring and addition to deletion list for manager here
-        return false;
     }
-    
 }
