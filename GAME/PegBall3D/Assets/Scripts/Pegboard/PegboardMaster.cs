@@ -1,8 +1,10 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
@@ -28,14 +30,14 @@ public class PegboardMaster : MonoBehaviour
     
     public static readonly int[] scoreThresholds =
     {
-        200 * 1,
-        200 * 3,
-        (int)(200 * 4.4f),
-        (int)(200 * 5.8f),
-        (int)(200 * 7f),
-        (int)(200 * 8.4f),
-        (int)(200 * 11f),
-        (int)(200 * 14f)
+        200 * 4,
+        200 * 7,
+        (int)(200 * 10f),
+        (int)(200 * 15f),
+        (int)(200 * 18f),
+        (int)(200 * 22f),
+        (int)(200 * 26f),
+        (int)(200 * 30f)
     };
 
     [SerializeField] private List<LevelData> levelDataList;
@@ -98,7 +100,7 @@ public class PegboardMaster : MonoBehaviour
     private const int RedPegAmount = 18;
     private int redPegsLeft;
 
-    private const int StartingBalls = 15;
+    private const int StartingBalls = 10;
     private int ballsLeft;
     
     private PegboardState _pegboardState = PegboardState.LoadingLevel;
@@ -189,7 +191,7 @@ public class PegboardMaster : MonoBehaviour
             _sfxAudioSource.PlayOneShot(pegSound, 0.2f);
 
             thisShotScore += peg.PegData.pegValue;
-            Debug.Log(peg.PegData.pegValue);
+            // Debug.Log(peg.PegData.pegValue);
             
             _pegStartDespawnTimer = 0;
 
@@ -227,7 +229,7 @@ public class PegboardMaster : MonoBehaviour
 
                 if (!doesBallExist && _hitPegList.Count == 0)
                 {
-                    if (ballsLeft > 0)
+                    if (ballsLeft > 0 && redPegsLeft > 0)
                     {
                         SetPegboardState(PegboardState.ReadyToShoot);
                     }
@@ -281,6 +283,14 @@ public class PegboardMaster : MonoBehaviour
     }
     public void StartGame()
     {
+        StartCoroutine(LoadLevelCoroutine());
+    }
+
+    private IEnumerator LoadLevelCoroutine()
+    {
+        SetPegboardState(PegboardState.LoadingLevel);
+        yield return null; // allow frame update
+        LoadNextLevel();
         SetPegboardState(PegboardState.ReadyToShoot);
     }
 
@@ -290,7 +300,6 @@ public class PegboardMaster : MonoBehaviour
         ballsLeft++;
         GameMaster.Instance.AddTextToPipe("bucket shot!");
     }
-
     public void SetPegboardState(PegboardState newState)
     {
         _pegboardState = newState;
@@ -306,31 +315,35 @@ public class PegboardMaster : MonoBehaviour
             case PegboardState.WaitingForBall:
                 shouldPegboardBeActive = true;
                 _pegboardUIManager.Show(PegboardScreen.Pegboard);
-                
                 break;
             case PegboardState.LoadingLevel:
                 _pegboardUIManager.Show(PegboardScreen.Loading);
-                LoadNextLevel();
-                GameMaster.Instance.ResetPlayButton(); // turns play button back on
-                // _canShoot = false;
+                GameMaster.Instance.ResetPlayButton();
                 break;
             case PegboardState.ResultsScreen:
                 _pegboardUIManager.Show(PegboardScreen.Scores);
-                // _canShoot = false;
+                GameMaster.Instance.ResetPlayButton();
                 break;
             case PegboardState.LoseScreen:
                 _pegboardUIManager.Show(PegboardScreen.Lose);
-                // _canShoot = false;
+                GameMaster.Instance.ResetPlayButton();
                 break;
         }
 
         _pegboard.SetActive(shouldPegboardBeActive);
     }
 
+    public PegboardState GetPegboardState() => _pegboardState;
     public void LoadNextLevel()
     {
-        _currentLevelIndex++;
 
+        foreach (var peg in GetComponentsInChildren<BasePeg>())
+        {
+            Destroy(peg.gameObject);
+        }
+        _pegList.Clear();
+        _hitPegList.Clear();
+        
         if (_currentLevelIndex >= levelDataList.Count)
         {
             _currentLevelIndex = 0;
@@ -341,10 +354,14 @@ public class PegboardMaster : MonoBehaviour
         redPegsLeft = RedPegAmount;
 
         LoadLevel(_currentLevelIndex);
-    }
+        
+        _currentLevelIndex++;
 
+    }
+    
     private void ScoreLevel()
     {
+        GameMaster.Instance.AddScore(_score);
         if (redPegsLeft > 0)
         {
             if (GameMaster.Instance.BonusLives > 0)
@@ -382,7 +399,7 @@ public class PegboardMaster : MonoBehaviour
         foreach (var placeholder in placeholderPegs)
         {
             GameObject pegToAdd;
-            if (i < 25)
+            if (i < RedPegAmount)
             {
                 pegToAdd = scorePeg;
                 i++;
@@ -457,6 +474,7 @@ public class PegboardMaster : MonoBehaviour
     
     public void TryShootBall()
     {
+        
         if (_pegboardState != PegboardState.ReadyToShoot) return;
 
         if (ballsLeft > 0)

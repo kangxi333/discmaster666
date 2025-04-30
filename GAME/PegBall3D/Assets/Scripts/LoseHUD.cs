@@ -2,15 +2,8 @@ using UnityEngine;
 
 public class LoseHUD : PegboardHUDBase
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public override void UpdateHUD()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        GameMaster.Instance.ResetPlayButton();
     }
 }

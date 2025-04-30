@@ -86,7 +86,7 @@ public class GameMaster : MonoBehaviour
         if (Instance != null && Instance != this)
         {
             Destroy(this);
-            return;
+            // return;
         }
         Instance = this;
 
@@ -239,6 +239,11 @@ public class GameMaster : MonoBehaviour
     public void ResetPlayButton()
     {
         _uiManager.ResetPlayButton();
+    }
+
+    public void DestroyPlayerInput()
+    {
+        player._playerInput.Dispose();
     }
 
     public void AddScore(int scoreToAdd)

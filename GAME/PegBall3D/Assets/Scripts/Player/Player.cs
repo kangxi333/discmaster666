@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
     private Transform _lastPosition;
     private Transform _targetTransform;
 
-    private PlayerInput _playerInput;
+    public PlayerInput _playerInput;
 
     private float _moveSpeed = 2f;
     private float _rotateSpeed = 5f;

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -29,8 +30,22 @@ public class UIManager : MonoBehaviour
 
     private void ClickPlayButton()
     {
-        GameMaster.Instance.PegboardMaster.StartGame();
-        playButton.gameObject.SetActive(false);
+        if (GameMaster.Instance.PegboardMaster.GetPegboardState() == PegboardState.ResultsScreen)
+        {
+            GameMaster.Instance.PegboardMaster.SetPegboardState(PegboardState.LoadingLevel);
+            ResetPlayButton();
+        }
+        else if (GameMaster.Instance.PegboardMaster.GetPegboardState() == PegboardState.LoadingLevel)
+        {
+            GameMaster.Instance.PegboardMaster.StartGame();
+        }
+        else if (GameMaster.Instance.PegboardMaster.GetPegboardState() == PegboardState.LoseScreen)
+        {
+            GameMaster.Instance.DestroyPlayerInput();
+            Scene screen = SceneManager.GetActiveScene();
+            SceneManager.LoadScene(screen.name);
+        }
+        // playButton.gameObject.SetActive(false);
     }
 
     public void ResetPlayButton()
